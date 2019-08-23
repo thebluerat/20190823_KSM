@@ -20,7 +20,7 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
 		
 		String[] values = value.toString().split(",");
 		// 출력 키에 넣을 문자열 변수
-		String strKey = values[8];
+		String strKey = values[15];
 		
 		if("1987".equals(values[0]) && !"NA".equals(strKey)) {
 			intValue = new IntWritable(1);
