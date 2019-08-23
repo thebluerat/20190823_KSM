@@ -35,7 +35,8 @@ public class Home extends HttpServlet {
 			// 정제 요청 대상 파일명 값이 있으면 HDFS 실행 요청 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			
 			Hadoop hadoop = new Hadoop();
-			HashMap <String, Object> resultMap = hadoop.run(file_name); 
+			HashMap<String, Object> resultMap = hadoop.run(file_name);
+			
 			int status = Integer.parseInt(resultMap.get("status").toString());
 			String result = "";
 			

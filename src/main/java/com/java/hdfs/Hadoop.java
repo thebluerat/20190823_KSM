@@ -82,8 +82,8 @@ public class Hadoop {
 					System.out.println("맵 리듀스 오류 - 중지");
 				} catch (Exception e) {
 					e.printStackTrace();
-					status = 1;
 					System.out.println("알 수 없는 오류");
+					status = 1;
 				}
 			}
 			
