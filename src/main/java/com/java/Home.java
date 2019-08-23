@@ -1,6 +1,7 @@
 package com.java;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.java.hdfs.Hadoop;
 
 @WebServlet("/Home")
 public class Home extends HttpServlet {
@@ -30,6 +33,22 @@ public class Home extends HttpServlet {
 			res.sendRedirect("/Home");
 		} else {
 			// 정제 요청 대상 파일명 값이 있으면 HDFS 실행 요청 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+			Hadoop hadoop = new Hadoop();
+			HashMap <String, Object> resultMap = hadoop.run(file_name); 
+			int status = Integer.parseInt(resultMap.get("status").toString());
+			String result = "";
+			
+			if(status == 0) {
+				result = "접속 오류";
+			}else if (status == 1){
+				result = "정제 오류";
+			}else if (status == 2) {
+				result = resultMap.get("result").toString();
+			}else {
+				result = "예상치 못한 오류";
+			}
+			
 			req.setAttribute("file_name", file_name);
 			RequestDispatcher rd = req.getRequestDispatcher(viewPath("result"));
 			rd.forward(req, res);

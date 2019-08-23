@@ -22,7 +22,7 @@ public class Hadoop {
 	protected Configuration hadoopConf = null;
 	protected Configuration localConf = null;
 	// hadoop 접속 주소 (hadoop server ip 수정 할것) <<<<<<<<<<<<<<<<<<
-	protected final String URL = "hdfs://ip:9000";
+	protected final String URL = "hdfs://192.168.3.69:9000";
 	protected final String LOCAL = "/root/data/";
 	// hadoop 정제 대상 경로 / 처리 결과 저장 경로 및 파일
 	protected final String INPUT = "/input/";
@@ -53,6 +53,41 @@ public class Hadoop {
 			 * 2) 정제 요청 : mapReduser()
 			 * 3) 성공 시 결과 받기 : resultData()
 			 **************************************************/
+			
+			if(fileCopy(fileName)) {
+				try {
+					if(mapReduser()) {
+						status = 2;
+						try {
+							String getdata = resultData();
+							resultMap.put("result", getdata);
+						} catch (IOException e) {
+							e.printStackTrace();
+							status = 1;
+							System.out.println("파일 읽기 오류");
+						}
+					}
+					
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+					status = 1;
+					System.out.println("맵 리듀스 오류 - 클래스 없음");
+				} catch (IOException e) {
+					e.printStackTrace();
+					status = 1;
+					System.out.println("맵 리듀스 오류 - 입출력");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					status = 1;
+					System.out.println("맵 리듀스 오류 - 중지");
+				} catch (Exception e) {
+					e.printStackTrace();
+					status = 1;
+					System.out.println("알 수 없는 오류");
+				}
+			}
+			
+			
 		}
 		resultMap.put("status", status);
 		System.out.println("Hadoop.run() >> End");
@@ -152,7 +187,7 @@ public class Hadoop {
 			int byteRead = 0;
 			while((byteRead = fsis.read()) > 0) { 
 				// 정제 결과를 문자열 변수에 담기
-				sb.append(byteRead);
+				sb.append((char)byteRead);
 			}
 			fsis.close();
 		}
