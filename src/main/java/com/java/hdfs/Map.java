@@ -31,7 +31,7 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
 		textKey.set(strKey);
 		// 전체 결과 출력하기
 		
-			context.write(textKey, intValue);
+		context.write(textKey, intValue);
 		
 		
 	}
