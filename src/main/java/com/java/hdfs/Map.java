@@ -30,7 +30,6 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
 		// 출력 키에 문자열 변수 적용
 		textKey.set(strKey);
 		// 전체 결과 출력하기
-		
 		context.write(textKey, intValue);
 		
 		
